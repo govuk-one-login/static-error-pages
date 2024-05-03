@@ -1,3 +1,5 @@
-# static-error-pages
+# Outage Explanation Page
 
-When Cloudfront is implemented it may experience situations where it cannot reach our Frontend services (eg. if they are down/unavailable for any reason). If this happens GOVUK one login will display a generic Cloudfront error page. This is the error page.
+This repository serves a static index.html page that provides an explanation for outages in the GOV.UK OneLogin journey.
+
+In instances where the frontend services are inaccessible or down for any reason, users may encounter a generic Cloudfront error page. To address this, this repository hosts a custom error page to provide users with information about the outage.
