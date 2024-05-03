@@ -1,5 +1,4 @@
 <html lang="en" class="govuk-template">
-
   <head>
     <meta charset="utf-8">
     <title>Sorry, there is a problem with GOV.UK One Login</title>
@@ -9,12 +8,10 @@
     <link rel="icon" sizes="any" href="/assets/images/favicon.svg" type="image/svg+xml">
     <link rel="mask-icon" href="/assets/images/govuk-icon-mask.svg" color="#0b0c0c">
     <link rel="apple-touch-icon" href="/assets/images/govuk-icon-180.png">
-    <link rel="manifest" href="/assets/manifest.json">
-    <link rel="stylesheet" href="./assets//stylesheet/govuk-frontend-5.3.1.min.css">
+    <link rel="stylesheet" href="./govuk-minify-stylesheet.css">
   </head>
 
   <body class=" js-enabled govuk-!-margin-0">
-
     <a href="#main-content" class="govuk-skip-link" data-module="govuk-skip-link">Skip to main content</a>
 
     <header class="govuk-header " role="banner" data-module="govuk-header">
@@ -40,27 +37,16 @@
 
     <div class="govuk-template__body ">
       <div class="govuk-width-container ">
-        <div class="govuk-phase-banner">
-          <p class="govuk-phase-banner__content">
-            <strong class="govuk-tag govuk-phase-banner__content__tag">
-              beta
-            </strong>
-            <span class="govuk-phase-banner__text">
-              This is a new service – your  <a href="/contact-us" class="govuk-link" rel="noopener" target="_blank">feedback (opens in new tab)</a>  will help us to improve it.
-            </span>
-          </p>
-        </div>
-
         <main class="govuk-main-wrapper " id="main-content" role="main">
           <div class="govuk-grid-row">
             <div class="govuk-grid-column-two-thirds ">
 
-              <h1 class="govuk-heading-l">Sorry, there is a problem with GOV.UK One Login.</h1>
+              <h1 class="govuk-heading-l">Sorry, there is a problem with GOV.UK One Login</h1>
               <p class="govuk-body">Try reloading the page.</p>
               <p class="govuk-body">If that does not work then you can try again later.</p>
 
               <p class="govuk-body">
-                <a href="https://status.account.gov.uk/" target="_blank" class="govuk-link govuk-body" id="statusPageLink">GOV.UK One Login service status</a>.
+                <a href="https://status.account.gov.uk/" rel="noopener" target="_blank" class="govuk-link govuk-body" id="statusPageLink">GOV.UK One Login service status</a>
               </p>
 
             </div>
@@ -74,43 +60,6 @@
 
         <div class="govuk-footer__meta">
           <div class="govuk-footer__meta-item govuk-footer__meta-item--grow">
-
-            <h2 class="govuk-visually-hidden">Support links</h2>
-
-            <ul class="govuk-footer__inline-list">
-
-              <li class="govuk-footer__inline-list-item">
-                <a class="govuk-footer__link" href="/accessibility-statement">
-                    Accessibility statement
-                  </a>
-              </li>
-
-              <li class="govuk-footer__inline-list-item">
-                <a class="govuk-footer__link" href="/cookies">
-                    Cookies
-                  </a>
-              </li>
-
-              <li class="govuk-footer__inline-list-item">
-                <a class="govuk-footer__link" href="/terms-and-conditions">
-                    Terms and conditions
-                  </a>
-              </li>
-
-              <li class="govuk-footer__inline-list-item">
-                <a class="govuk-footer__link" href="/privacy-notice">
-                    Privacy notice
-                  </a>
-              </li>
-
-              <li class="govuk-footer__inline-list-item">
-                <a class="govuk-footer__link" href="/contact-us" target="_blank">
-                    Support (opens in new tab)
-                  </a>
-              </li>
-
-            </ul>
-
             <svg aria-hidden="true" focusable="false" class="govuk-footer__licence-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 483.2 195.7" height="17" width="41">
               <path fill="currentColor" d="M421.5 142.8V.1l-50.7 32.3v161.1h112.4v-50.7zm-122.3-9.6A47.12 47.12 0 0 1 221 97.8c0-26 21.1-47.1 47.1-47.1 16.7 0 31.4 8.7 39.7 21.8l42.7-27.2A97.63 97.63 0 0 0 268.1 0c-36.5 0-68.3 20.1-85.1 49.7A98 98 0 0 0 97.8 0C43.9 0 0 43.9 0 97.8s43.9 97.8 97.8 97.8c36.5 0 68.3-20.1 85.1-49.7a97.76 97.76 0 0 0 149.6 25.4l19.4 22.2h3v-87.8h-80l24.3 27.5zM97.8 145c-26 0-47.1-21.1-47.1-47.1s21.1-47.1 47.1-47.1 47.2 21 47.2 47S123.8 145 97.8 145"></path>
             </svg>
@@ -126,18 +75,10 @@
         </div>
       </div>
     </footer>
-    <script>
-      document.body.className += ' js-enabled' + (
-        'noModule' in HTMLScriptElement.prototype
-        ? ' govuk-frontend-supported'
-        : '');
-    </script>
-    <!-- component HTML -->
-    <script type="module" src="./assets/javascripts/govuk-frontend-5.3.1.min.js"></script>
-    <script type="module">
-      import {initAll} from './assets/javascripts/govuk-frontend-5.3.1.min.js'
-      initAll()
-    </script>
   </body>
-
 </html>
+
+<style>
+  @charset "UTF-8";:root{--govuk-frontend-version:"5.3.1";--govuk-frontend-breakpoint-mobile:20rem;--govuk-frontend-breakpoint-tablet:40.0625rem;--govuk-frontend-breakpoint-desktop:48.0625rem}.govuk-link{font-family:GDS Transport,arial,sans-serif;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-decoration:underline;text-decoration-thickness:max(1px,.0625rem);text-underline-offset:.1578em;}@font-face{font-family:GDS Transport;font-style:normal;font-weight:400;src:url(/assets/fonts/light-94a07e06a1-v2.woff2) format("woff2"),url(/assets/fonts/light-f591b13f7d-v2.woff) format("woff");font-display:fallback;}@font-face{font-family:GDS Transport;font-style:normal;font-weight:700;src:url(/assets/fonts/bold-b542beb274-v2.woff2) format("woff2"),url(/assets/fonts/bold-affa96571d-v2.woff) format("woff");font-display:fallback;}@media print{.govuk-link{font-family:sans-serif;}}.govuk-link:hover{text-decoration-thickness:max(3px,.1875rem,.12em);-webkit-text-decoration-skip-ink:none;text-decoration-skip-ink:none;-webkit-text-decoration-skip:none;text-decoration-skip:none;}.govuk-link:focus{outline:3px solid transparent;background-color:#fd0;box-shadow:0 -2px #fd0,0 4px #0b0c0c;text-decoration:none;-webkit-box-decoration-break:clone;box-decoration-break:clone;}.govuk-link:link{color:#1d70b8;}.govuk-link:visited{color:#4c2c92;}.govuk-link:hover{color:#003078;}.govuk-link:active,.govuk-link:focus{color:#0b0c0c;}@media print{[href^="/"].govuk-link:after,[href^="http://"].govuk-link:after,[href^="https://"].govuk-link:after{content:" (" attr(href) ")";font-size:90%;word-wrap:break-word;}}.govuk-link-image{display:inline-block;line-height:0;text-decoration:none;}.govuk-link-image:focus{outline:3px solid transparent;box-shadow:0 0 0 4px #fd0,0 0 0 8px #0b0c0c;}.govuk-heading-l{color:#0b0c0c;font-family:GDS Transport,arial,sans-serif;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;font-weight:700;font-size:1.5rem;line-height:1.0416666667;display:block;margin-top:0;margin-bottom:20px;}@media print{.govuk-heading-l{color:#000;font-family:sans-serif;}}@media (min-width:40.0625em){.govuk-heading-l{font-size:2.25rem;line-height:1.1111111111;}}@media print{.govuk-heading-l{font-size:24pt;line-height:1.05;}}@media (min-width:40.0625em){.govuk-heading-l{margin-bottom:30px;}}.govuk-heading-m{color:#0b0c0c;font-family:GDS Transport,arial,sans-serif;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;font-weight:700;font-size:1.125rem;line-height:1.1111111111;display:block;margin-top:0;margin-bottom:15px;}@media print{.govuk-heading-m{color:#000;font-family:sans-serif;}}@media (min-width:40.0625em){.govuk-heading-m{font-size:1.5rem;line-height:1.25;}}@media print{.govuk-heading-m{font-size:18pt;line-height:1.15;}}@media (min-width:40.0625em){.govuk-heading-m{margin-bottom:20px;}}.govuk-heading-s{color:#0b0c0c;font-family:GDS Transport,arial,sans-serif;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;font-weight:700;font-size:1rem;line-height:1.25;display:block;margin-top:0
+
+</style>
