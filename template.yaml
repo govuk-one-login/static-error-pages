@@ -1,0 +1,110 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: "AWS::Serverless-2016-10-31"
+
+Description: Infrastructure to host the Cloudfront error page
+
+Parameters:
+  CodeSigningConfigArn:
+    Type: String
+    Description: >
+      The ARN of the Code Signing Config to use, provided by the deployment pipeline
+    Default: "none"
+  PermissionsBoundary:
+    Type: String
+    Description: >
+      The ARN of the permissions boundary to apply to any role created by the template
+    Default: "none"
+
+Conditions:
+  UseCodeSigning:
+    Fn::Not:
+      - Fn::Equals:
+          - !Ref CodeSigningConfigArn
+          - "none"
+  UsePermissionsBoundary:
+    Fn::Not:
+      - Fn::Equals:
+          - !Ref PermissionsBoundary
+          - "none"
+Globals:
+  Function:
+    CodeSigningConfigArn: !If
+      - UseCodeSigning
+      - !Ref CodeSigningConfigArn
+      - !Ref AWS::NoValue
+    PermissionsBoundary: !If
+      - UsePermissionsBoundary
+      - !Ref PermissionsBoundary
+      - !Ref AWS::NoValue
+
+Resources:
+  CFErrorPageBucket:
+    Type: AWS::S3::Bucket
+    DeletionPolicy: Delete
+    Properties:
+      VersioningConfiguration:
+        Status: "Enabled"
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: AES256
+      Tags:
+        - Key: Source
+          Value: "govuk-one-login/static-error-pages/cloudformation/template"
+
+  CFErrorPageBucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref CFErrorPageBucket
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+        - Sid: AllowCloudFrontServicePrincipal
+          Action: s3:GetObject
+          Effect: Allow
+          Resource: !Sub ${CFErrorPageBucket.Arn}/*
+          Principal:
+            Service: cloudfront.amazonaws.com
+          Condition: 
+            StringEquals: 
+              "aws:SourceOrgID": "o-dpp53lco28"
+
+  StaticSiteInvoke:
+    Type: AWS::CloudFormation::CustomResource
+    Properties:
+      BucketName: !Ref CFErrorPageBucket
+      ServiceToken: !GetAtt StaticSiteUploadFunction.Arn
+      FunctionName: !Ref StaticSiteUploadFunction.Version
+
+  StaticSiteUploadFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Architectures: 
+       - x86_64
+      #checkov:skip=CKV_AWS_117:vpc not required for this simple S3 upload
+      #checkov:skip=CKV_AWS_116:dlq not required for this simple S3 upload function
+      #checkov:skip=CKV_AWS_173:encryption not required
+      #checkov:skip=CKV_AWS_115:concurency setup not required
+      CodeUri: uploadErrorPageLambda
+      AutoPublishAlias: LatestVersion
+      FunctionName: upload-cf-error-page
+      Runtime: python3.12
+      Timeout: 5
+      Handler: uploadStaticSite.handler
+      Policies:
+        - S3WritePolicy:
+            BucketName: !Ref CFErrorPageBucket
+Outputs:
+  S3BucketSecureURL:
+    Value: !Join 
+      - ''
+      - - 'https://'
+        - !GetAtt 
+          - CFErrorPageBucket
+          - DomainName
+    Description: Name of S3 bucket to hold website content
