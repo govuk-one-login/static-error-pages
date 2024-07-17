@@ -1,0 +1,65 @@
+name: Error Page Infra deployment
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+
+      - name: Install Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Set up SAM cli
+        uses: aws-actions/setup-sam@v2
+        with:
+          use-installer: true  # this caches installation but is only available on Linux x86-64 runners
+
+      - name: Set up AWS creds
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.ERROR_PAGE_GH_ACTIONS_ROLE_ARN }}
+          aws-region: eu-west-2
+
+      - name: Install python dependencies
+        run: |
+          mkdir -p uploadErrorPageLambda/python
+          python -m pip install -r uploadErrorPageLambda/requirements.txt \
+          --platform manylinux2014_x86_64 \
+          --target="uploadErrorPageLambda" \
+          --implementation cp \
+          --python-version 3.12 \
+          --only-binary=:all:
+
+      - name: copy index.html
+        run: cp index.html uploadErrorPageLambda
+
+      - name: SAM validate
+        run: sam validate
+
+      - name: SAM build and test
+        run: sam build
+
+      - name: Deploy SAM app
+        uses: govuk-one-login/devplatform-upload-action@v3.8.1
+        with:
+          artifact-bucket-name: ${{ secrets.ERROR_PAGE_ARTIFACT_BUCKET_NAME }}
+          signing-profile-name: ${{ secrets.SIGNING_PROFILE_NAME }}
