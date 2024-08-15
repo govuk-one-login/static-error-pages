@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - main
+      - PSREDEV-1707
 
 defaults:
   run:
@@ -23,43 +23,67 @@ jobs:
         with:
           fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
 
-      - name: Install Python
-        uses: actions/setup-python@v5
+      # - name: Install Python
+      #   uses: actions/setup-python@v5
+      #   with:
+      #     python-version: '3.12'
+
+      # - name: Set up SAM cli
+      #   uses: aws-actions/setup-sam@v2
+      #   with:
+      #     use-installer: true  # this caches installation but is only available on Linux x86-64 runners
+
+      # - name: Set up AWS creds
+      #   uses: aws-actions/configure-aws-credentials@v4
+      #   with:
+      #     role-to-assume: ${{ secrets.ERROR_PAGE_GH_ACTIONS_ROLE_ARN }}
+      #     aws-region: eu-west-2
+
+      # - name: Install python dependencies
+      #   run: |
+      #     python -m pip install -r uploadErrorPageLambda/requirements.txt \
+      #     --platform manylinux2014_x86_64 \
+      #     --target="uploadErrorPageLambda" \
+      #     --implementation cp \
+      #     --python-version 3.12 \
+      #     --only-binary=:all:
+
+      # - name: Convert index.html to standalone page 
+      #   uses: docker://pandoc/extra:3.1.1.0
+      #   with:
+      #     args: >-
+      #       --embed-resources --standalone --data-external=1
+      #       --output=uploadErrorPageLambda/index.html
+      #       index.html
+      - name: Install Quarto
+        uses: quarto-dev/quarto-actions/setup@v2
         with:
-          python-version: '3.12'
-
-      - name: Set up SAM cli
-        uses: aws-actions/setup-sam@v2
+          version: 1.4.515
+  
+      - name: Render index.html
+        uses: quarto-dev/quarto-actions/render@v2
         with:
-          use-installer: true  # this caches installation but is only available on Linux x86-64 runners
-
-      - name: Set up AWS creds
-        uses: aws-actions/configure-aws-credentials@v4
+          to: html
+          path: uploadErrorPageLambda
+    
+      - name: Publish standalone HTML
+        uses: quarto-dev/quarto-actions/publish@v2
         with:
-          role-to-assume: ${{ secrets.ERROR_PAGE_GH_ACTIONS_ROLE_ARN }}
-          aws-region: eu-west-2
+          target: uploadErrorPageLambda/index.html
+          embed-resources: true
+          render: false
 
-      - name: Install python dependencies
-        run: |
-          mkdir -p uploadErrorPageLambda/python
-          python -m pip install -r uploadErrorPageLambda/requirements.txt \
-          --platform manylinux2014_x86_64 \
-          --target="uploadErrorPageLambda" \
-          --implementation cp \
-          --python-version 3.12 \
-          --only-binary=:all:
+      - name: echo
+        run: less uploadErrorPageLambda/index.html
 
-      - name: copy index.html
-        run: cp index.html uploadErrorPageLambda
+      # - name: SAM validate
+      #   run: sam validate
 
-      - name: SAM validate
-        run: sam validate
+      # - name: SAM build and test
+      #   run: sam build
 
-      - name: SAM build and test
-        run: sam build
-
-      - name: Deploy SAM app
-        uses: govuk-one-login/devplatform-upload-action@v3.8.1
-        with:
-          artifact-bucket-name: ${{ secrets.ERROR_PAGE_ARTIFACT_BUCKET_NAME }}
-          signing-profile-name: ${{ secrets.SIGNING_PROFILE_NAME }}
+      # - name: Deploy SAM app
+      #   uses: govuk-one-login/devplatform-upload-action@v3.8.1
+      #   with:
+      #     artifact-bucket-name: ${{ secrets.ERROR_PAGE_ARTIFACT_BUCKET_NAME }}
+      #     signing-profile-name: ${{ secrets.SIGNING_PROFILE_NAME }}
