@@ -1,0 +1,30 @@
+{
+  "name": "static-error-pages",
+  "version": "1.0.0",
+  "description": "UI static error pages for cloudfront",
+  "main": "./index.html",
+  "scripts": {
+    "build": "webpack",
+    "dev": "webpack server",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/govuk-one-login/static-error-pages.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/govuk-one-login/static-error-pages/issues"
+  },
+  "homepage": "https://github.com/govuk-one-login/static-error-pages#readme",
+  "devDependencies": {
+    "css-loader": "^7.1.2",
+    "html-bundler-webpack-plugin": "^3.17.3",
+    "sass": "^1.77.8",
+    "sass-loader": "^16.0.0",
+    "webpack": "^5.93.0",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^5.0.4"
+  }
+}
