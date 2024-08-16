@@ -21,17 +21,33 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+          fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
+
+      - name: Set up Node.js and cache node modules
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+          cache: "npm"
+          registry-url: https://registry.npmjs.org/
+
+      - name: Install project dependencies
+        run: npm ci
+
+      - name: Run project tests
+        run: npm run ci
+
+      - name: Build inlined HTML
+        run: npm run build
 
       - name: Install Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.12'
+          python-version: "3.12"
 
       - name: Set up SAM cli
         uses: aws-actions/setup-sam@v2
         with:
-          use-installer: true  # this caches installation but is only available on Linux x86-64 runners
+          use-installer: true # this caches installation but is only available on Linux x86-64 runners
 
       - name: Set up AWS creds
         uses: aws-actions/configure-aws-credentials@v4
@@ -50,7 +66,7 @@ jobs:
           --only-binary=:all:
 
       - name: copy index.html
-        run: cp index.html uploadErrorPageLambda
+        run: cp dist/index.html uploadErrorPageLambda
 
       - name: SAM validate
         run: sam validate
