@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - main
+      - PSREDEV-1713
 
 defaults:
   run:
@@ -35,6 +35,16 @@ jobs:
 
       - name: Run project tests
         run: npm run ci
+      
+      - name: Upload test results
+        uses: actions/upload-artifact@v3
+        with:
+          path: artifacts/accessibilityReport.html
+
+      - name: Upload SARIF file
+        uses: github/codeql-action/upload-sarif@eb055d739abdc2e8de2e5f4ba1a8b246daa779aa # v3.25.12v3
+        with:
+          sarif_file: artifacts/accessibilityReport.html
 
       - name: Build inlined HTML
         run: npm run build
@@ -49,11 +59,11 @@ jobs:
         with:
           use-installer: true # this caches installation but is only available on Linux x86-64 runners
 
-      - name: Set up AWS creds
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          role-to-assume: ${{ secrets.ERROR_PAGE_GH_ACTIONS_ROLE_ARN }}
-          aws-region: eu-west-2
+      # - name: Set up AWS creds
+      #   uses: aws-actions/configure-aws-credentials@v4
+      #   with:
+      #     role-to-assume: ${{ secrets.ERROR_PAGE_GH_ACTIONS_ROLE_ARN }}
+      #     aws-region: eu-west-2
 
       - name: Install python dependencies
         run: |
@@ -68,14 +78,14 @@ jobs:
       - name: copy index.html
         run: cp dist/index.html uploadErrorPageLambda
 
-      - name: SAM validate
-        run: sam validate
+      # - name: SAM validate
+      #   run: sam validate
 
-      - name: SAM build and test
-        run: sam build
+      # - name: SAM build and test
+      #   run: sam build
 
-      - name: Deploy SAM app
-        uses: govuk-one-login/devplatform-upload-action@v3.8.1
-        with:
-          artifact-bucket-name: ${{ secrets.ERROR_PAGE_ARTIFACT_BUCKET_NAME }}
-          signing-profile-name: ${{ secrets.SIGNING_PROFILE_NAME }}
+      # - name: Deploy SAM app
+      #   uses: govuk-one-login/devplatform-upload-action@v3.8.1
+      #   with:
+      #     artifact-bucket-name: ${{ secrets.ERROR_PAGE_ARTIFACT_BUCKET_NAME }}
+      #     signing-profile-name: ${{ secrets.SIGNING_PROFILE_NAME }}
