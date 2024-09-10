@@ -15,9 +15,7 @@ module.exports = {
   },
   plugins: [
     new HtmlBundlerPlugin({
-      entry: {
-        index: "./src/index.html",
-      },
+      entry: "./src/",
       css: {
         inline: true, // inline CSS into HTML
       },

@@ -65,8 +65,8 @@ jobs:
           --python-version 3.12 \
           --only-binary=:all:
 
-      - name: copy index.html
-        run: cp dist/index.html uploadErrorPageLambda
+      - name: Copy HTML
+        run: cp -a dist/. uploadErrorPageLambda/
 
       - name: SAM validate
         run: sam validate

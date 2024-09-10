@@ -5,17 +5,20 @@ from crhelper import CfnResource
 
 import logging
 import boto3
+import glob
 
 logger = logging.getLogger(__name__)
 # Initialise the helper, all inputs are optional, this example shows the defaults
 helper = CfnResource(json_logging=False, log_level='DEBUG', boto_level='CRITICAL', sleep_on_delete=120, ssl_verify=None)
+htmlFiles = glob.glob('*.html')
 
 try:
   s3 = boto3.resource('s3')
   logger.info("Created boto3 S3 resource")
 
-  with open("index.html") as f:
-    logger.info("Able to open index.html")
+  for htmlFile in htmlFiles:
+    with open(htmlFile) as f:
+      logger.info(f"Able to open {htmlFile}")
 
 except Exception as e:
   helper.init_failure(e)
@@ -28,12 +31,12 @@ def updateBucket(event, context):
   bucket = s3.Bucket(properties["BucketName"])
 
   try:
-    with open("index.html", 'rb') as f:
-      bucket.put_object(Key='cloudfront-error/index.html', Body=f, ContentType='text/html')
+    for htmlFile in htmlFiles:
+      with open(htmlFile, 'rb') as f:
+        bucket.put_object(Key=f'cloudfront-error/{htmlFile}', Body=f, ContentType='text/html')
   except Exception:
     logger.critical('Could not upload to S3')
     raise
-
 
 @helper.delete
 def no_op(_, __):
