@@ -300,3 +300,4 @@ artifacts
 
 **/.aws-sam
 cf-template.yaml
+.idea
