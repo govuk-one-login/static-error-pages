@@ -9,6 +9,9 @@
     "dev": "webpack server",
     "test": "jest"
   },
+  "overrides": {
+    "rimraf": "^5.0.0"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/govuk-one-login/static-error-pages.git"
