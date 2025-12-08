@@ -10,7 +10,8 @@
     "test": "jest"
   },
   "overrides": {
-    "rimraf": "^5.0.0"
+    "rimraf": "^5.0.0",
+    "glob": "^7.2.3"
   },
   "repository": {
     "type": "git",
