@@ -19,6 +19,9 @@
     "url": "https://github.com/govuk-one-login/static-error-pages/issues"
   },
   "homepage": "https://github.com/govuk-one-login/static-error-pages#readme",
+  "overrides": {
+    "brace-expansion": "5.0.8"
+  },
   "devDependencies": {
     "@axe-core/puppeteer": "^4.9.1",
     "axe-core": "^4.10.0",
@@ -33,6 +36,6 @@
     "start-server-and-test": "^2.0.5",
     "webpack": "^5.105.0",
     "webpack-cli": "^5.1.4",
-    "webpack-dev-server": "^5.2.6"
+    "webpack-dev-server": "^6.0.0"
   }
 }
