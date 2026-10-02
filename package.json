@@ -20,7 +20,7 @@
   },
   "homepage": "https://github.com/govuk-one-login/static-error-pages#readme",
   "overrides": {
-    "brace-expansion": "5.0.9"
+    "brace-expansion": "5.0.12"
   },
   "devDependencies": {
     "@axe-core/puppeteer": "^4.9.1",
